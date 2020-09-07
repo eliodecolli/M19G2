@@ -1,0 +1,52 @@
+﻿@model M19G2.Models.DishFilterViewModel
+
+
+<div class="form-inline">
+    <div class="">
+        <p class="lead text-sm-left">Dish Name</p>
+        <p><input type="text" class="form-control" id="dishFilterName" /></p>
+    </div>
+    <div class="ml-2">
+        <p class="lead text-sm-left">Dish Type</p>
+        <p>
+            @Html.DropDownList("dishFilterType", Model.DishTypes, new { @class = "form-control", id = "dishFilterType" })
+        </p>
+    </div>
+    <div class="ml-2">
+        <p class="lead text-sm-left">Min Price</p>
+        <p>
+            <input type="number" class="form-control" id="minPrice" />
+        </p>
+    </div>
+    <div class="ml-2">
+        <p class="lead text-sm-left">Max Price</p>
+        <p>
+            <input type="number" class="form-control" id="maxPrice" />
+        </p>
+    </div>
+    <div class="ml-2">
+        <p><button type="button" class="btn btn-primary btn-md" id="filterDish">Filter Dishes</button></p>
+    </div>
+    <div class="ml-2">
+        <p><button class="btn-link" id="clear-filter">Clear filters</button></p>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '#filterDish', (e) => {
+        var url = '@Url.Action("Filter", "Dish")?dishFilterName=' + $('#dishFilterName').val() + '&dishFilterTypeName=' + $('#dishFilterType').val() +
+            "&maxPrice=" + $('#maxPrice').val() +
+            '&minPrice=' + $('#minPrice').val();
+
+        CallGenericAjax(url, "html", null, false, null, "GET", null, null, (data) => {
+            $('#dish-list').html(data);
+        }, null);
+    });
+    $(document).on('click', '#clear-filter', (e) => {
+        var url = '@Url.Action("Filter", "Dish")?clearFilters=true';
+
+        CallGenericAjax(url, "html", null, false, null, "GET", null, null, (data) => {
+            $('#dish-list').html(data);
+        }, null);
+    });
+</script>

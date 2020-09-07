@@ -1,0 +1,10 @@
+﻿
+@model M19G2.Models.IngredientDto
+@using (Html.BeginForm("CreateIngredients", "KitchenChef"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new {@class = "form-control"})
+    </div>
+    <button type="submit" class="btn btn-outline-primary btn-md">Save</button>
+}

@@ -1,0 +1,27 @@
+﻿
+<div class="modal fade" id="createAddressPopup" tabindex="-1" data-toggle="modal" aria-labelledby="title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title">Add new delivery address...</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="popUpContainer">
+                    @using (Html.BeginForm("CreateAddress", "Account"))
+                    {
+                        <div class="form-group">
+                            <label class="font-weight-bold lead">Street Name</label>
+                            <input type="text" class="form-control" name="addressName" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-sm float-right" type="submit">Create Address</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

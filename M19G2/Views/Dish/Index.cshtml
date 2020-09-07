@@ -1,0 +1,68 @@
+﻿@model M19G2.Models.DishesViewModel
+
+@{
+    ViewBag.Title = "Browse Dishes";
+
+}
+
+<div class="row border-bottom-0">
+    <div class="col">
+        <h2 class="text-center">Filter Dishes</h2>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col">
+        @{ Html.RenderAction("RenderDishFilter"); }
+    </div>
+</div>
+
+<h1>Available Dishes</h1>
+<br />
+
+<div id="dish-list" class="tobe-fadedin">
+    @{ Html.RenderPartial("_ListDishes", Model); }
+</div>
+
+<br />
+
+
+<div class="w-100" id="modal-goes-here"></div>
+<script>
+    
+        $(document).ready(function() {
+        //$('.image-container').each((e, obj) => {
+            //$(obj).attr('src', '/Dish/ShowImage?id=' + obj.id);
+        //});
+            $(document).on("click", ".purchaseButton", (e) => {
+        e.preventDefault();
+        var id = e.target.id;
+        CallGenericAjax("/Dish/Purchase/" + id,
+            "html",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            (data) => {
+                CallGenericAjax("/Cart/GetCartNum",
+                    "text",
+                    null,
+                    false,
+                    null,
+                    "GET",
+                    null,
+                    null,
+                    (data) => {
+                        $("#cart-menu-item").text(data);
+                    },
+                    null);
+                $("#modal-goes-here").html(data);
+                $("#reivewCartPopup").modal("show");
+            },
+            null);
+    });
+    });
+</script>

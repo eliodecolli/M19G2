@@ -1,0 +1,28 @@
+﻿@model M19G2.ViewModels.IngredientsViewModel
+@Html.Partial("_AddIngredient")
+</br>
+<table class="table table-bordered table-hover">
+    <thead>
+        List of Ingredients
+    </thead>
+    <tbody>
+        <tr>
+            <th class=" table-dark">@Html.LabelFor(m => m.IngredientDto.ID)</th>
+            <th class="table-dark">@Html.LabelFor(m => m.IngredientDto.Name)</th>
+        </tr>
+        <div class="table-secondary">
+            @{
+                var iter = Model.IngredientDtos.GetEnumerator();
+
+                while (iter.MoveNext())
+                {
+                    <tr>
+                        <td class="">@iter.Current.ID</td>
+                        <td class="">@iter.Current.Name</td>
+                    </tr>
+                }
+            }
+        </div>
+    </tbody>
+    </tr>
+</table>

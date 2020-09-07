@@ -1,0 +1,58 @@
+﻿@model M19G2.Models.DishesViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of all Dishes</h2>
+
+<div>
+    <table class="table table-bordered table-striped table-hover" id="data-table">
+        <thead>
+            <tr>
+                <th>@Html.LabelFor(m => m.Dishes[0].DishID)</th>
+                <th>@Html.LabelFor(m => m.Dishes[0].Name)</th>
+                <th>@Html.LabelFor(m => m.Dishes[0].DishTypeName)</th>
+                <th>@Html.LabelFor(m => m.Dishes[0].Price)</th>
+                <th class="">Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dish in Model.Dishes)
+            {
+                <tr>
+                    <td>@dish.DishID</td>
+                    <td>@dish.Name</td>
+                    <td>@dish.DishTypeName</td>
+                    <td>
+                        @dish.Price
+                    </td>
+                    <td>
+                        @if (dish.IsActive)
+                        {
+                            @Html.ActionLink("Disable", "DisableDish", new { id = dish.DishID }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Enable", "EnableDish", "KitchenChef", new { id = dish.DishID }, new { @class = "btn btn-success" })
+                        }
+
+                        @Html.ActionLink("Modify", "EditDish", "KitchenChef", new { id = dish.DishID }, new { @class = "btn btn-dark" })
+                        @Html.ActionLink("View Dish", "ViewDish", "KitchenChef", new { id = dish.DishID }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $("#data-table").DataTable({
+                fixedHeader: true
+            });
+        })
+    </script>
+}
+

@@ -1,0 +1,54 @@
+﻿@model M19G2.Models.DishesViewModel
+
+<style>
+    .img-size {
+        max-height: 184px;
+        max-width: 200px;
+    }
+</style>
+
+@{
+    if (Model.Dishes.Count > 0)
+    {
+        int parts = (Model.Dishes.Count / 3) + 1;
+        int lastPart = 0;
+        for (int i = 0; i < parts; i++)
+        {
+            <div class="row">
+                @{
+                    int cParts = lastPart + 4;
+                    while (lastPart < cParts)
+                    {
+                        if (lastPart > Model.Dishes.Count - 1)
+                        {
+                            break;
+                        }
+                        var dish = Model.Dishes[lastPart];
+                        <div class="col-md-3 border-light rounded text-center" style="padding: 10px">
+                            <div class="thumbnail">
+                                <img id="@dish.DishID" class="image-container img-size" src="" />
+                                <div class="caption">
+                                    <h2>@dish.Name</h2>
+                                    <p>@dish.Description</p>
+                                    <p>
+                                        @Html.ActionLink("Add to cart", "Purchase", new { id = dish.DishID }, new { @class = "btn btn-secondary btn-sm purchaseButton", id = dish.DishID })
+                                        @Html.ActionLink("View Dish", "ViewDish", new { id = dish.DishID }, new { @class = "btn btn-info btn-sm" })
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                        lastPart++;
+                    }
+                }
+            </div>
+        }
+    }
+}
+
+<script>
+    $('.image-container').each((e, obj) => {
+        var dishId = obj.id;
+        $(obj).attr('src', '/Dish/ShowImage?dishId=' + dishId);
+    });
+</script>

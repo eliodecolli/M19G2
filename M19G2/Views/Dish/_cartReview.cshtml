@@ -1,0 +1,45 @@
+﻿@model M19G2.Models.CartViewModel
+
+<div class="modal fade" id="reivewCartPopup" tabindex="-1" data-toggle="modal" data-url="@Url.Action("Purchase")" aria-labelledby="reviewCartPopupTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewCartPopupTitle">Review your current order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="popUpContainer">
+                    @{
+                        Html.RenderPartial("_cartListView", Model);
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-secondary btn-sm">Close</button>
+                <a href="@Url.Action("Index", "Cart")" class = "btn btn-primary btn-sm" id="complete-checkout">Finish Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on("click", ".dish-remove", (e) => {
+        e.preventDefault();
+        var id = e.target.id;
+        CallGenericAjax("/Dish/Remove/" + id,
+            "html",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            (data) => {
+                $("#popUpContainer").html(data);
+            },
+            null);
+    });
+
+</script>

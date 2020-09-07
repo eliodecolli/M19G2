@@ -1,0 +1,42 @@
+﻿@model List<int>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image ID</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var id in Model)
+        {
+            <tr id="@id">
+                <td>@id</td>
+                <td>
+                    <img src="/Dish/ShowDishImage?imageId=@id" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm removeImage">Remove</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).on('click', '.removeImage', e => {
+        var id = $(e.target).parents()[1].id;
+        CallGenericAjax("/Dish/RemoveImage?imageId=" + id,
+            "text",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            () => {
+                $('#' + id).remove();
+            },
+            null);
+    });
+</script>

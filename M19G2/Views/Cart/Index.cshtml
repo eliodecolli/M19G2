@@ -1,0 +1,89 @@
+﻿@model M19G2.Models.CartViewModel
+
+@{
+    ViewBag.Title = "Cart";
+    if(ViewBag.ErrorMessage != null)
+    {
+        <h5>@ViewBag.ErrorMessage</h5>
+    }
+}
+@{
+    if (Model.Completed)
+    {
+        <div class="alert alert-success" id="successOrder" role="alert">
+            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="alert-heading">Your checkout has completed!</h4>
+            <p>Your order has been registered and is now ready to be cooked and delivered right at your door step! You'll be notified once the order has been shipped.</p>
+            <hr />
+
+            <p class="mb-0">Remember our 10 minute free-cancelation policy! If we've not delivered your oder within 10 minutes you can choose to cancel it!</p>
+            <p class="mb-0 text-sm-left">But please don't, I have three children and a lot of bills to pay :'(</p>
+        </div>
+        <div class="alert alert-danger" role="alert" id="statusMessage" data-orderid="@ViewBag.OldId">
+            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <p id="statusResult"></p>
+        </div>
+    }
+}
+
+<h1 class="text-center">Complete the checkout process</h1>
+<hr />
+
+<h2 class="lead font-weight-bold">Items in your cart</h2>
+@{
+    if (Model.CurrentOrder != null)
+    {
+        <div id="orderList">
+            @{
+                Html.RenderPartial("_cartListView", Model);
+            }
+        </div>
+    }
+}
+
+<script>
+    $(document).on('click', '.dish-remove', (e) => {
+        e.preventDefault();
+        var id = e.target.id;
+        CallGenericAjax("/Cart/Remove?id=" + id,
+            "html",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            (data) => {
+                $("#orderList").html(data);
+            },
+            null);
+    });
+
+    //$(document).ready(() => {
+        if ($('#statusResult').length > 0) {
+            var id = $('#statusMessage').data('orderid');
+            CallGenericAjax("/Orders/Status?orderId=" + id,
+            "text",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            (data) => {
+                 if (data.length > 0)
+                 {
+                     $('#successOrder').hide();
+                     $('#statusResult').text(data);
+                 }
+                else
+                    $('#statusMessage').hide();
+            },
+            null);
+        }
+    //});
+</script>

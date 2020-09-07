@@ -1,0 +1,34 @@
+﻿
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    @Html.ActionLink("EAT", "Index", "Home", null, new { @class = "navbar-brand" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-i tem">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })</li>
+            @if (User.IsInRole("Client"))
+            {
+                <li class="nav-item">@Html.ActionLink("Browse Dishes", "Index", "Dish", null, new { @class = "nav-link" })</li>
+            }
+            @if (User.IsInRole("Kitched Staff"))
+            {
+                <li class="nav-item">@Html.ActionLink("View Pending Orders", "Orders", "Account", null, new { @class = "nav-link" })</li>
+            }
+            @if (User.IsInRole("Chef"))
+            {
+                <li class="nav-item">@Html.ActionLink("Manage Dishes", "Index", "KitchenChef", null, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("Ingredients", "IngredientsIndex", "KitchenChef", null, new { @class = "nav-link" })</li>
+            }
+            @if (User.IsInRole("Delivery Service Staff"))
+            {
+                <li class="nav-item">@Html.ActionLink("Pending Deliveries", "Index", "Taxi", null, new { @class = "nav-link" })</li>
+            }
+            <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
+            <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>
+
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+</nav>

@@ -1,0 +1,18 @@
+﻿<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                @Html.ActionLink("System Users", "Index", "Admin", null, new {@class="nav-link side-link"})
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Create User", "Create", "Admin", null, new { @class = "nav-link side-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("System Logs", "Logs", "Admin", null, new { @class = "nav-link side-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Review Access Requests", "ReviewAccessRequests", "Admin", null, new { @class = "nav-link side-link" })
+            </li>
+        </ul>
+    </div>
+</nav>

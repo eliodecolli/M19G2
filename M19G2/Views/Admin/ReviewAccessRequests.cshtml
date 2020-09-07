@@ -1,0 +1,57 @@
+﻿@using M19G2.DAL.Entities
+@model List<UsersAccessRequest>
+@{
+    ViewBag.Title = "System Users";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Review Access Requests</h1>
+</div>
+
+<table class="table display" id="users-table">
+    <thead>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Request Status</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var request in Model)
+        {
+        <tr>
+            <th>@request.FirstName</th>
+            <td>@request.LastName</td>
+            <td>@request.Email</td>
+            <td>@request.AspNetRole.Name</td>
+            <td>@request.AccessRequestStatus.Description</td>
+            <td class="row">
+                @using (Html.BeginForm("ApproveAccessRequest", "Admin"))
+                {
+                    @Html.Hidden("accessRequestId", request.Id)
+                    <button type="submit" class="btn btn-link">Approve</button>
+                }
+                @using (Html.BeginForm("DenyAccessRequest", "Admin"))
+                {
+                    @Html.Hidden("accessRequestId", request.Id)
+                    <button type="submit" class="btn btn-link">Deny</button>
+                }
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+<br />
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $("#users-table").DataTable({
+                "order": [[3, "desc"]]
+            });
+        })
+    </script>
+}

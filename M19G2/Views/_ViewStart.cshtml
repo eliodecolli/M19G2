@@ -1,0 +1,29 @@
+﻿
+@using Microsoft.AspNet.Identity
+@{
+    //Layoutet vendosen dinamikisht ne baze te emrit te kontrollerit
+    string CurrentName = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString().ToLower();
+    switch (CurrentName)
+    {
+        case "admin":
+            Layout = "~/Views/Shared/_AdminLayout.cshtml";
+            break;
+        case "account":
+            Layout = "~/Views/Shared/_AuthenticationLayout.cshtml";
+            break;
+        case "manage":
+            //nese jemi te view manage atehere kjo view duhet te kete layoutin perkates
+            if (User.IsInRole("Admin"))
+            {
+                Layout = "~/Views/Shared/_AdminLayout.cshtml";
+            }
+            else
+            {
+                Layout = "~/Views/Shared/_Layout.cshtml";
+            }
+            break;
+        default:
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
+}

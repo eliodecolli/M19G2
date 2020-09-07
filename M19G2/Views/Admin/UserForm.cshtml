@@ -1,0 +1,63 @@
+﻿@model M19G2.ViewModels.UserFormViewModel
+@{
+    ViewBag.Title = "UserForm";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Create new User</h1>
+</div>
+
+@using (Html.BeginForm("Save", "Admin"))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName)
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName)
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber)
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PhoneNumber)
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender)
+                @Html.TextBoxFor(m => m.Gender, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Gender)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Birthday)
+                @Html.TextBoxFor(m => m.Birthday, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Birthday)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.AspNetRoleName)
+                @Html.DropDownListFor(m => m.AspNetRoleName, new SelectList(Model.AspNetRoles, "Name", "Name"),
+                    "Select user role", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.AspNetRoleName)
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

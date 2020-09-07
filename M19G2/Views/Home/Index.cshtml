@@ -1,0 +1,119 @@
+﻿@using M19G2.Models
+@model List<DishDto>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+
+</style>
+<style>
+    .row-header {
+        margin: 0px auto;
+        padding: 0px auto;
+    }
+
+    .row-content {
+        margin: 0px auto;
+        padding: 50px 0px 50px 0px;
+    }
+
+    .footer {
+        background-color: #d1c4e9;
+        margin: 0px auto;
+        padding: 20px 0px 20px 0px;
+    }
+
+    .jumbotron {
+        padding: 70px 30px 70px 30px;
+        margin: 0px auto;
+        background: #9575cd;
+        color: floralwhite;
+    }
+
+    .img-size{
+        max-height: 150px;
+        max-width: 150px;
+    }
+
+    .address {
+        font-size: 80%;
+        margin: 0px;
+        color: #0f0f0f;
+    }
+
+    body {
+        padding: 50px 0px 0px 0px;
+        z-index: 0;
+    }
+
+    .navbar-dark {
+        background-color: #512DA8;
+    }
+
+    .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+    }
+</style>
+
+<header class="jumbotron">
+    <div class="container">
+        <div class="row row-header">
+            <div class="col-12 col-sm-6">
+                <h1>Ristorante EAT</h1>
+                <p>
+                    We take inspiration from the World's best cuisines, and add our own flavours to 
+                    deliver the best service to our clients!
+                </p>
+            </div>
+            <div class="col-12 col-sm-3 align-self-center">
+                <img src="img/logo.png" alt="" class="img-fluid">
+            </div>
+            <div class="col-sm-3 align-self-center">
+                 @Html.ActionLink("Make an order", "Index", "Dish", null, new { @class = "btn btn-warning btn-block" })
+            </div>
+        </div>
+    </div>
+</header>
+@foreach(var dish in Model)
+{
+
+<div class="row row-content align-items-center">
+    <div class="col-12 col-sm-4 order-sm-last col-md-3">
+        <h3>Our Lipsmacking Culinary Creations</h3>
+    </div>
+    <div class="col col-sm col-md">
+        <div class="media">
+            <img src="/Dish/ShowImage?dishId=@dish.DishID" alt="athappypizza"
+                    class="d-flex mr-3 img-thumbnail img-size align-self-center">
+            <div class="media-body">
+                <h2 class="mt-0">@dish.Name <i class="badge badge-primary">@dish.DishTypeName</i><i class="badge badge-pill badge-secondary">$@dish.Price</i></h2>
+                <div class="d-none d-sm-block">
+                    <p>@dish.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<script>
+        $(document).ready(function () {
+            CallGenericAjax('@Url.Action("GetTop", "Statistics")',
+            "html",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            (data) => {
+                 $("#carouselShowPlace").html(data);
+            },
+            null);
+        });
+</script>

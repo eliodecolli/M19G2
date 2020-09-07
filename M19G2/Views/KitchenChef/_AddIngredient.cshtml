@@ -1,0 +1,13 @@
+﻿@model M19G2.ViewModels.IngredientsViewModel
+
+</br>
+<em class="font-weight-bold"> Would you like to add an ingredient?</em>
+
+@using (Html.BeginForm("AddIngredient", "KitchenChef"))
+{
+    <div class="form-group">
+        <label>Ingredient Name</label>
+        <input type="text" name="ingredientName" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Add Ingredient</button>
+}

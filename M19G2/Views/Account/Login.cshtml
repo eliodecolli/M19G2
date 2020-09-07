@@ -1,0 +1,49 @@
+﻿@using M19G2.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal tobe-fadedin", role = "form", id = "loginForm" }))
+{
+<div class="form-signin">
+    @Html.AntiForgeryToken()
+    <div class="text-center mb-4">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-label-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-label-group">
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+    </div>
+    <div class="checkbox mb-3">
+        @Html.CheckBoxFor(m => m.RememberMe)
+        @Html.LabelFor(m => m.RememberMe)
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+    <p>
+        @Html.ActionLink("Register as a new user", "Register")
+    </p>
+    <p>
+        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+    </p>
+</div>
+}
+@*perdoret per sign in nga google facebook etj
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        </section>
+    </div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

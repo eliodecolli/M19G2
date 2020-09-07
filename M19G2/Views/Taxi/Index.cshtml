@@ -1,0 +1,105 @@
+﻿@model List<M19G2.Models.DeliveryViewModel>
+
+@if (Model.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Delivery Address</th>
+                <th>ETA</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var v in Model)
+            {
+                <tr id="@v.OrderID">
+                    <td>@v.OrderID</td>
+                    <td>@v.AddressName</td>
+                    @{
+                        if (v.ETA.HasValue)
+                        {
+                            <td id="eta-@v.OrderID">@v.ETA.Value</td>
+                        }
+                        else
+                        {
+                            <td id="eta-@v.OrderID">Unspecified</td>
+                        }
+                    }
+                    <td><button class="btn btn-primary btn-sm set-eta">Set ETA</button></td>
+                    <td><button class="btn btn-primary btn-sm mark-delivered">Mark delivered</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h4>You have no delivery packages pending.</h4>
+}
+
+<div class="modal fade" id="setETAPopup" tabindex="-1" data-toggle="modal" data-orderId="" aria-labelledby="title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title">Set Estimated Time of Arrival</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="popUpContainer">
+                    <div class="form-group">
+                        <label>Time in minutes</label>
+                        <input type="number" class="form-control" id="eta" />
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-sm float-right" data-dismiss="modal" type="button" id="setEta">Set ETA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).on('click', '.set-eta', (e) => {
+        var id = $(e.target).parent().parent().attr('id');
+        $('#setETAPopup').data('orderId', id);
+        $('#setETAPopup').modal();
+    });
+    $(document).on('click', '#setEta', () => {
+        var eta = $('#eta').val();
+        var id = $('#setETAPopup').data('orderId');
+
+        CallGenericAjax("/Taxi/SetETA?orderId=" + id + '&eta=' + eta,
+            "text",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            () => {
+                $('#eta-' + id).text(eta);
+            },
+            null);
+    });
+    $(document).on('click', '.mark-delivered', (e) => {
+        var id = $(e.target).parent().parent().attr('id');
+
+        CallGenericAjax("/Taxi/MarkDelivered?orderId=" + id,
+            "text",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            () => {
+                //$('#' + id).remove();
+                location.reload();
+            },
+            null);
+    });
+</script>

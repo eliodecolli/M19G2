@@ -1,0 +1,50 @@
+﻿@using M19G2.DAL.Entities
+@model List<Log4NetLog>
+@{
+    ViewBag.Title = "System Users";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">System Logs</h1>
+</div>
+
+<table class="table display" id="users-table">
+    <thead>
+    <tr>
+        <th scope="col">Message</th>
+        <th scope="col">Type</th>
+        <th scope="col">Logger</th>
+        <th scope="col">Date</th>
+        <th scope="col">Exception</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var log in Model)
+    {
+        <tr>
+            <th>@log.Message</th>
+            <td>@log.Level</td>
+            <td>@log.Logger</td>
+            <td>@log.Date</td>
+            <td>@log.Exception</td>
+        </tr>
+    }
+    </tbody>
+</table>
+<br />
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $("#users-table").DataTable({
+                "columns": [
+                    { "width": "15%" },
+                    { "width": "15%" },
+                    { "width": "15%" },
+                    { "width": "15%" },
+                    { "width": "40%" },
+                ],
+                "order": [[3, "desc"]]
+            });
+        })
+    </script>
+}

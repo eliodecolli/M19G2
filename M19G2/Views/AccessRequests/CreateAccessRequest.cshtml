@@ -1,0 +1,63 @@
+﻿@model M19G2.ViewModels.AccessRequestFromViewModel
+@{
+    ViewBag.Title = "Create User Access Request";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Create new User Access Request</h1>
+</div>
+
+@using (Html.BeginForm("CreateAccessRequest", "AccessRequests"))
+{
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.FirstName)
+                @Html.TextBoxFor(m => m.UserAccessRequests.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.FirstName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.LastName)
+                @Html.TextBoxFor(m => m.UserAccessRequests.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.LastName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.Email)
+                @Html.TextBoxFor(m => m.UserAccessRequests.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.PhoneNumber)
+                @Html.TextBoxFor(m => m.UserAccessRequests.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.PhoneNumber)
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.Gender)
+                @Html.TextBoxFor(m => m.UserAccessRequests.Gender, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.Gender)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.Birthday)
+                @Html.TextBoxFor(m => m.UserAccessRequests.Birthday, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.Birthday)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserAccessRequests.AspNetRoleId)
+                @Html.DropDownListFor(m => m.UserAccessRequests.AspNetRoleId, new SelectList(Model.AspNetRoles, "Id", "Name"),
+                    "Select user role", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserAccessRequests.AspNetRoleId)
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Request</button>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

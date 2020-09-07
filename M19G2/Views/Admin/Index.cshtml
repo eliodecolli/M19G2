@@ -1,0 +1,80 @@
+﻿
+@using M19G2.Models
+@model List<M19G2.Models.UserDto>
+@{
+    ViewBag.Title = "System Users";
+}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mt-2 pb-2 mb-3 border-bottom">
+    <h1 class="h2">System Users</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        @Html.ActionLink("Enabled Users", "Index", "Admin", new { showDisabled = false }, new { @class = "btn btn-sm btn-outline-secondary mr-2" })
+        @Html.ActionLink("Disabled Users", "Index", "Admin", new { showDisabled = true }, new { @class = "btn btn-sm btn-outline-secondary mr-2" })
+        <a href="http://localhost:2276/admin/create" class="btn btn-sm btn-outline-secondary justify-content-center align-content-center" role="button" aria-pressed="true">Create</a>
+    </div>
+</div>
+<table class="table display" id="users-table">
+    <thead>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Role</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Email</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var userDto in Model)
+    {
+        <tr>
+            <th>@userDto.FirstName</th>
+            <td>@userDto.LastName</td>
+            <td>@userDto.RoleDto.Name</td>
+            <td>@userDto.PhoneNumber</td>
+            <td>@userDto.Email</td>
+            <td class="row">
+                @if (ViewBag.showDisabled == "false")
+                {
+                    using (Html.BeginForm("DisableUser", "Admin"))
+                    {
+                        @Html.Hidden("Id", userDto.Id)
+                        <button type="submit" class="btn btn-link">Disable</button>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableUser", "Admin"))
+                    {
+                        @Html.Hidden("Id", userDto.Id)
+                        <button type="submit" class="btn btn-link">Enable</button>
+                    }
+                }
+
+                @using (Html.BeginForm("ChangePassword", "Admin"))
+                {
+                    @Html.Hidden("Id", userDto.Id)
+                    <button type="submit" class="btn btn-link">Change Password</button>
+                }
+
+                @using (Html.BeginForm("AnonymizeAccount", "Admin"))
+                {
+                    @Html.Hidden("userId", userDto.Id)
+                    <button type="submit" class="btn btn-link">Delete User</button>
+                }
+
+                @Html.ActionLink("Edit", "Edit", "Admin", new { id = userDto.Id }, null)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<br />
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            $("#users-table").DataTable({
+                fixedHeader: true
+            });
+        })
+    </script>
+}

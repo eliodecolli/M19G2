@@ -1,0 +1,46 @@
+﻿@model List<string>
+
+<div class="modal fade" id="viewDishesPopup" tabindex="-1" data-toggle="modal" aria-labelledby="viewDishesPopupT" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewDishesPopupT">Dishes to be prepared</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" id="popUpContainer">
+                    @{
+                        var d = new Dictionary<string, int>();
+                        foreach (var v in Model)
+                        {
+                            if (d.ContainsKey(v))
+                            {
+                                d[v]++;
+                            }
+                            else
+                            {
+                                d.Add(v, 1);
+                            }
+                        }
+                        foreach (var v in d)
+                        {
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h5 class="lead">@v.Key</h5>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="lead">x@(v.Value)</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" aria-label="Close" class="btn btn-secondary btn-sm">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

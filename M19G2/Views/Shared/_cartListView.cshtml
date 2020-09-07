@@ -1,0 +1,118 @@
+﻿@model M19G2.Models.CartViewModel
+
+@{
+    if (Model.Dishes.Count > 0)
+    {
+        foreach (var dd in Model.Quantities)
+        {
+            var d = Model.Dishes.Where(m => m.DishID == dd.Key).First();
+            <div class="row border-bottom" style="padding: 8px">
+                <div class="col-md-10">
+                    <div id="space-time">
+                        <div class="row">
+                            <div class="col"><h5>@d.Name</h5></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-9">@d.Description</div>
+                            <div class="col-3">
+                                @Html.TextBoxFor(x => x.Quantities[d.DishID], new { @class = "form-control quantities", id = "quantitiy-" + d.DishID})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div id="nuclear-fusion">
+                        <div class="row">
+                            <div class="col">Price: $@d.Price.ToString()</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                @Html.ActionLink("Remove", "RemoveDish", "Cart", new { id = d.DishID }, new { @class = "btn btn-danger btn-sm dish-remove", id = d.DishID })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.CalledFromNav)
+        {
+<div style="padding-top: 15px">
+    @if (Model.UserAddresses.Count > 0)
+    {
+        using (Html.BeginForm("CompleteCheckout", "Cart", FormMethod.Post, new { model = Model }))
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="lead font-weight-bold" for="deliveryAddress">Delivery Address</label>
+                        @Html.DropDownList("deliveryAddress", Model.UserAddresses, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="lead font-weight-bold" for="extras">Extra Message</label>
+                        <textarea class="form-control" name="extraDetails"></textarea>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-md float-right">Checkout</button>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                   <p class="lead text-center">Please add a new address in order to proceed with the checkout.</p>
+            </div>
+        </div>
+        Html.RenderPartial("_createUserAddress");
+    }
+</div>
+        }
+    }
+    else
+    {
+        <div class="row border-bottom">
+            <div class="col">
+                <p class="text-xl-center">Your cart is empty.</p>
+            </div>
+        </div>
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        if ($('#createAddressPopup').length > 0) {
+            $('#createAddressPopup').modal();
+        }
+
+        $('.quantities').change(e => {
+            var id = e.target.id.split('-')[1];
+            var quantity = $(e.target).val();
+
+            CallGenericAjax("/Orders/SetQuantity?dishId=" + id + "&quantity=" + quantity,
+            "text",
+            null,
+            false,
+            null,
+            "GET",
+            null,
+            null,
+            (data) => {
+               console.log("I DON'T KNOOOWWWW")
+            },
+            null);
+        });
+
+        /*$('#complete-checkout').click(e => {
+            e.preventDefault();
+        });*/
+    });
+</script>

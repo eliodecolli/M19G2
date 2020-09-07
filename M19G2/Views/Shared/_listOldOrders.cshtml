@@ -1,0 +1,40 @@
+﻿@model M19G2.Models.OrderViewModel
+
+<div class="w-100 mh-100">
+    @if (Model.OrderDates != null && Model.Orders != null && Model.Orders.Count == Model.OrderDates.Count)
+    {
+        if (Model.OrderDates.Count > 0)
+        {
+            foreach (var v in Model.Orders)
+            {
+                <div class="row">
+                    <div class="col-md-10">
+                        <p class="lead font-weight-bold text-primary text-right">@Model.OrderDates[v.Key]</p>
+                        <p>
+                            <ul class="list-group d-block">
+                                @foreach (var dish in v.Value)
+                                {
+                                    <li class="list-group-item list-group-item-secondary">@dish</li>
+                                }
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 p-1">
+                        @Html.ActionLink("Order Again", "OrderAgain", "Orders", new { id = v.Key }, new { @class="btn btn-primary order-again btn-sm btn-block" })
+                    </div>
+                </div>
+                <br />
+            }
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">
+                    <h4 class="lead text-center">Yikes, you've got nothing here :'(</h4>
+                </div>
+            </div>
+        }
+    }
+</div>
